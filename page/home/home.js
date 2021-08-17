@@ -93,6 +93,7 @@ Page({
                 
               })
               wx.setStorage('userInfo', res.userInfo)
+              const userInfo = res.userInfo
 
               wx.login({
                 success (res) {
@@ -100,16 +101,22 @@ Page({
                     //发起网络请求
                     // 登录 或 注册
                     $api._get(`/userInfo/register?code=${res.code}`).then(result => {
-                      console.log(result.res)
+                      console.log(userInfo)
                       if(result.code == 200) {
                         const openId = result.res;
-                        const userInfo = res.userInfo;
-                        const resultData = {};
-                        resultData.nickName = userInfo.nickName;
+                       
+                        const userInfoBo = {"nickName": "", "gender": "", "openId": ""};
+                        userInfoBo.nickName = userInfo.nickName;
+                        userInfoBo.gender = userInfo.gender;
+                        userInfoBo.openId = openId;
+
+                        $api._post("/userInfo/saveOrUpdate", userInfo).then(res2 => {
+                          
+
+                        })
+
 
                       }
-
-                      
                     })
                   } else {
                     console.log('登录失败！' + res.errMsg)
