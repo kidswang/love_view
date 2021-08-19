@@ -112,7 +112,7 @@ export function getFileUploadUrl(url) {
   /**
    * 删除文件
    */
-export function mDelete(url, md5) {
+export function mDeleteFle(url, md5) {
   return new Promise((resolve, reject) => {
     axios
       .delete(url, md5)
