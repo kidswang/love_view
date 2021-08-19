@@ -125,10 +125,10 @@ Page({
     const baseUrl = axios.defaults.baseUrl;
 
     wx.uploadFile({
-      url: baseUrl + '/store/upload',
+      url: baseUrl + '/store/uploadImg',
       filePath: imageFile,
       header: {
-        // "Content-Type": "multipart/form-data",
+        "Content-Type": "multipart/form-data",
         "userId": wx.getStorageSync('userId')
       },
       name: "file",
