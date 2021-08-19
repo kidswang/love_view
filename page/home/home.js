@@ -20,40 +20,27 @@ Page({
       //   userInfo: res.detail.userInfo,
       //   isShow: false,
       // });
-      // wx.switchTab({
-      //   url: 'home',
-      // })
+      wx.switchTab({
+        url: 'home',
+      })
    
    
-    }
+    }  else {
+      //用户按了拒绝按钮
+      wx.showModal({
+          title: '警告',
+          content: '您点击了拒绝授权，将无法进入小程序，请授权之后再进入!!!',
+          showCancel: false,
+          confirmText: '返回授权',
+          success: function(res) {
+              // 用户没有授权成功，不需要改变 isHide 的值
+              if (res.confirm) {
+                  console.log('用户点击了“返回授权”');
+              }
+          }
+      });
+  }
   },
-  // clickEject(index) {
-  //   // console.log(index);
-  //   let id = index.currentTarget.dataset.index
-  //   for (let i = 0; i < this.data.list.length; i++) {
-  //     if (id == i) {
-  //       Dialog.alert({
-  //         closeOnClickOverlay: true,
-  //         title: '点击确认复制',
-  //         message: this.data.list[i].popup,
-  //       }).then(() => {
-  //         wx.setClipboardData({
-  //           data: this.data.list[i].contact,
-  //           success(res) {
-  //             wx.getClipboardData({
-  //               success(res) {
-  //                 wx.showToast({
-  //                   title: '复制成功',
-  //                   icon: 'success',
-  //                 })
-  //               }
-  //             })
-  //           }
-  //         })
-  //       })
-  //     }
-  //   }
-  // },
 
   /**
    * 生命周期函数--监听页面加载
@@ -90,7 +77,6 @@ Page({
               that.setData({
                 isShow: false,
                 userInfo: res.userInfo
-                
               })
               wx.setStorage('userInfo', res.userInfo)
               const userInfo = res.userInfo
@@ -105,17 +91,17 @@ Page({
                       if(result.code == 200) {
                         const openId = result.res;
                        
-                        const userInfoBo = {"nickName": "", "gender": "", "openId": ""};
+                        const userInfoBo = {};
                         userInfoBo.nickName = userInfo.nickName;
                         userInfoBo.gender = userInfo.gender;
                         userInfoBo.openId = openId;
+                        userInfoBo.country = userInfo.country;
+                        userInfoBo.city = userInfo.city;
+                        userInfoBo.province = userInfo.province;
 
-                        $api._post("/userInfo/saveOrUpdate", userInfo).then(res2 => {
+                        $api._post("/userInfo/saveOrUpdate", userInfoBo).then(res2 => {
                           
-
                         })
-
-
                       }
                     })
                   } else {
