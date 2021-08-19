@@ -1,6 +1,10 @@
-const db = wx.cloud.database()
-const postCollection = db.collection('post')
+// const db = wx.cloud.database()
+// const postCollection = db.collection('post')
 // const sourceType = [['camera'], ['album'], ['camera', 'album']]
+
+import axios from "../../util/request/axios"
+import {mGet, mPost} from '../../util/request/HttpUtil'
+
 const sourceType = [
   ['camera'],
   ['album'],
@@ -29,7 +33,8 @@ Page({
     sizeTypeIndex: 0,
     sizeType: ['压缩', '原图', '压缩或原图'],
     countIndex: 8,
-    count: [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    count: [1, 2, 3, 4, 5, 6, 7, 8, 9],
+    uploadData: {}
   },
 
   bindKeyInput(e) {
@@ -81,11 +86,14 @@ Page({
     })
   },
 
-  onShow() {
-    wx.reportAnalytics('enter_home_programmatically', {})
-  },
+  // onShow() {
+  //   wx.reportAnalytics('enter_home_programmatically', {})
+  // },
 
   onGotUserInfo(e) {
+
+    let that = this;
+
     console.log("error:" + e.detail.errMsg)
     console.log("userInfo:" + e.detail.userInfo)
     console.log("rawData" + e.detail.rawData)
@@ -114,39 +122,73 @@ Page({
       title: 'uploading...',
     })
 
-    wx.cloud.uploadFile({
-      cloudPath: filename,
-      filePath: imageFile, // 文件路径
-      success: res => {
-        console.log("upload img:" + res.fileID)
+    const baseUrl = axios.defaults.baseUrl;
 
-        wx.showLoading({
-          title: 'saving...',
-        })
-
-        postCollection.add({
-          data: {
-            // openId: openId,
-            userInfo: userInfo,
-            message: inputValue,
-            imageFileIDList: [res.fileID],
-            createTime: db.serverDate()
-          }, 
-          success : res=> {
-            console.log("save " + res)
-            wx.hideLoading()
-            wx.navigateBack()
-          },
-          fail: err => {
-            console.log(err)
-            wx.hideLoading()
-          }
-        })
+    wx.uploadFile({
+      url: baseUrl + '/store/upload',
+      filePath: imageFile,
+      header: {
+        // "Content-Type": "multipart/form-data",
+        "userId": wx.getStorageSync('userId')
       },
-      fail: err => {
+      name: "file",
+      success: res => {
+        console.log(res)
+        const currentData = that.data.uploadData
+        const data = res.res
+        currentData.name = data.name
+        currentData.url = data.url
+        currentData.md5 = data.md5;
+
+        currentData.content = inputValue
+        
+        mPost("/noteContent/saveContent", currentData).then(result => {
+            console.log(result.res)
+
+        })
+      }, fail: err => {
         console.log(err)
         wx.hideLoading()
       }
     })
+
+
+
+
+
+    // wx.cloud.uploadFile({
+    //   cloudPath: filename,
+    //   filePath: imageFile, // 文件路径
+    //   success: res => {
+    //     console.log("upload img:" + res.fileID)
+
+    //     wx.showLoading({
+    //       title: 'saving...',
+    //     })
+
+    //     postCollection.add({
+    //       data: {
+    //         // openId: openId,
+    //         userInfo: userInfo,
+    //         message: inputValue,
+    //         imageFileIDList: [res.fileID],
+    //         createTime: db.serverDate()
+    //       }, 
+    //       success : res=> {
+    //         console.log("save " + res)
+    //         wx.hideLoading()
+    //         wx.navigateBack()
+    //       },
+    //       fail: err => {
+    //         console.log(err)
+    //         wx.hideLoading()
+    //       }
+    //     })
+    //   },
+    //   fail: err => {
+    //     console.log(err)
+    //     wx.hideLoading()
+    //   }
+    // })
   }
 })

@@ -1,6 +1,9 @@
 // miniprogram/pages/my/my.js
 import Dialog from '../../miniprogram_npm/@vant/weapp/dialog/dialog';
 import $api from '../../util/httputils.js';
+
+import {mGet, mPost} from "../../util/request/HttpUtil"
+
 Page({
 
   /**
@@ -15,45 +18,73 @@ Page({
 
   bindGetUserInfo(res) {
     if (res.detail.userInfo) {
-      // console.log(res.detail.userInfo)
-      // this.setData({
-      //   userInfo: res.detail.userInfo,
-      //   isShow: false,
-      // });
-      // wx.switchTab({
-      //   url: 'home',
-      // })
+      let that = this
+      wx.getSetting({
+        success: (res) => {
+          if (res.authSetting['scope.userInfo']) {
+            // console.log('已授权')
+  
+            wx.getUserInfo({
+              success: function (res) {
+                // success
+                // console.log(res);
+                that.setData({
+                  isShow: false,
+                  userInfo: res.userInfo
+                })
+
+                wx.setStorageSync("userInfo", that.data.userInfo)
+
+                wx.login({
+                  success (res) {
+                    if (res.code) {
+                      //发起网络请求
+                      // 登录 或 注册
+                      mGet('/userInfo/register',{"code":res.code}).then(result => {
+                        if(result.code == 200) {
+                          const openId = result.res;
+                          const userInfoBo = that.data.userInfo;
+                          userInfoBo.openId = openId
+  
+                          mPost("/userInfo/saveOrUpdate", userInfoBo).then(res2 => {
+                            const userId = res2.res;
+                            wx.setStorageSync("userId", userId);
+                          })
+                        }
+                      })
+                    } else {
+                      console.log('登录失败！' + res.errMsg)
+                    }
+                  }
+                })
+  
+              },
+              fail: function () {
+                // fail
+              },
+              complete: function () {
+                // complete
+              }
+            })
+  
+          } else {
+            console.log('未授权');
+          }
+        },
+        fail: () => { },
+        complete: () => { }
+      });
+
+      wx.switchTab({  
+        url: '/page/home/home',
+      })
+      // console.log("ttttt")
    
-   
+    } else {
+      // console.log("jujuju")
     }
   },
-  // clickEject(index) {
-  //   // console.log(index);
-  //   let id = index.currentTarget.dataset.index
-  //   for (let i = 0; i < this.data.list.length; i++) {
-  //     if (id == i) {
-  //       Dialog.alert({
-  //         closeOnClickOverlay: true,
-  //         title: '点击确认复制',
-  //         message: this.data.list[i].popup,
-  //       }).then(() => {
-  //         wx.setClipboardData({
-  //           data: this.data.list[i].contact,
-  //           success(res) {
-  //             wx.getClipboardData({
-  //               success(res) {
-  //                 wx.showToast({
-  //                   title: '复制成功',
-  //                   icon: 'success',
-  //                 })
-  //               }
-  //             })
-  //           }
-  //         })
-  //       })
-  //     }
-  //   }
-  // },
+
 
   /**
    * 生命周期函数--监听页面加载
@@ -90,32 +121,27 @@ Page({
               that.setData({
                 isShow: false,
                 userInfo: res.userInfo
-                
               })
-              wx.setStorage('userInfo', res.userInfo)
-              const userInfo = res.userInfo
+              
+            
+              wx.setStorageSync("userInfo", that.data.userInfo)
 
               wx.login({
                 success (res) {
                   if (res.code) {
                     //发起网络请求
                     // 登录 或 注册
-                    $api._get(`/userInfo/register?code=${res.code}`).then(result => {
-                      console.log(userInfo)
+                    mGet('/userInfo/register', {"code":res.code}).then(result => {
                       if(result.code == 200) {
                         const openId = result.res;
-                       
-                        const userInfoBo = {"nickName": "", "gender": "", "openId": ""};
-                        userInfoBo.nickName = userInfo.nickName;
-                        userInfoBo.gender = userInfo.gender;
-                        userInfoBo.openId = openId;
+                        const userInfoBo = that.data.userInfo;
+                        userInfoBo.openId = openId
 
-                        $api._post("/userInfo/saveOrUpdate", userInfo).then(res2 => {
-                          
+                        mPost("/userInfo/saveOrUpdate", userInfoBo).then(res2 => {
+                          const userId = res2.res;
+                          wx.setStorageSync("userId", userId);
 
                         })
-
-
                       }
                     })
                   } else {

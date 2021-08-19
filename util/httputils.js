@@ -1,4 +1,4 @@
-const baseUrl = 'http://localhost:9001';
+const baseUrl = 'http://192.168.1.109:9001';
 
 const http = ({ url = '', param = {}, ...other } = {}) => {
     wx.showLoading({
