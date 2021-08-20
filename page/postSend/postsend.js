@@ -125,7 +125,7 @@ Page({
     const baseUrl = axios.defaults.baseUrl;
 
     wx.uploadFile({
-      url: baseUrl + '/store/uploadImg',
+      url: baseUrl + '/store/upload',
       filePath: imageFile,
       header: {
         "Content-Type": "multipart/form-data",
@@ -133,9 +133,9 @@ Page({
       },
       name: "file",
       success: res => {
-        console.log(res)
+        console.log(res.data)
         const currentData = that.data.uploadData
-        const data = res.res
+        const data = res.data
         currentData.name = data.name
         currentData.url = data.url
         currentData.md5 = data.md5;

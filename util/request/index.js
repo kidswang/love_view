@@ -9,7 +9,7 @@ import axios from "./axios";
  * axios defaults 配置
  */
 axios.defaults = {
-  baseUrl: "http://192.168.1.109:9001",
+  baseUrl: "http://10.168.1.60:9001",
   timeout: 60000,
 };
 
