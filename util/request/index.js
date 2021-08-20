@@ -9,9 +9,14 @@ import axios from "./axios";
  * axios defaults 配置
  */
 axios.defaults = {
-  baseUrl: "http://10.168.1.60:9001",
+  baseUrl: "http://192.168.1.109:9001",
   timeout: 60000,
 };
+
+function getUserId() {
+  const userId = wx.getStorageSync('userId');
+  return userId;
+}
 
 /**
  * 全局 请求拦截器, 支持添加多个拦截器
@@ -24,12 +29,14 @@ axios.interceptors.request.use(
     if (config.method === "post") {
       config.data = {
         ...config.data,
+        userId: getUserId(),
         //access_token: getToken(),
         _t: Date.parse(new Date()) / 1000
       };
     } else if (config.method === "get") {
       config.params = {
         ...config.params,
+        userId: getUserId(),
         //access_token: getToken(),
         _t: Date.parse(new Date()) / 1000
       };

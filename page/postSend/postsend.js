@@ -24,6 +24,8 @@ Page({
     }
   },
 
+
+
   data: {
     openId : '',
     inputValue: '',
@@ -34,7 +36,25 @@ Page({
     sizeType: ['压缩', '原图', '压缩或原图'],
     countIndex: 8,
     count: [1, 2, 3, 4, 5, 6, 7, 8, 9],
-    uploadData: {}
+    uploadData: {},
+    happenDate: ''
+  },
+
+  getNowDate() {
+    const year = date.getFullYear()
+    const month = date.getMonth() + 1
+    const day = date.getDate()
+    const date = [year, month,day].map(formatNumber).join('-')
+    this.setData({
+      happenDate: date
+    })
+  },
+  
+  bindDateChange: function (e) {
+    // console.log('picker发送选择改变，携带值为', e.detail.value)
+    this.setData({
+      happenDate: e.detail.value
+    })
   },
 
   bindKeyInput(e) {
@@ -136,15 +156,23 @@ Page({
         console.log(res.data)
         const currentData = that.data.uploadData
         const data = res.data
-        currentData.name = data.name
-        currentData.url = data.url
-        currentData.md5 = data.md5;
+        var obj = JSON.parse(data);
+
+        console.log(obj)
+        currentData.name = obj.res.name
+        currentData.url = obj.res.url
+        currentData.md5 = obj.res.md5;
+        currentData.happenDate = that.data.happenDate
 
         currentData.content = inputValue
-        
+        wx.showLoading({
+          title: 'saving...',
+        })
+
         mPost("/noteContent/saveContent", currentData).then(result => {
             console.log(result.res)
-
+            wx.hideLoading()
+            wx.navigateBack()
         })
       }, fail: err => {
         console.log(err)

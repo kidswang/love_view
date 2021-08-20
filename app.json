@@ -13,8 +13,8 @@
     "list": [
       {
         "pagePath": "page/memory/index",
-        "iconPath": "image/icon_love_disable.png",
-        "selectedIconPath": "image/icon_love_enable.png",
+        "iconPath": "image/love1.png",
+        "selectedIconPath": "image/love2.png",
         "text": "轨迹"
       },
       {
@@ -31,8 +31,8 @@
       },
       {
         "pagePath": "page/home/home",
-        "iconPath": "image/icon_await_disable.png",
-        "selectedIconPath": "image/icon_await_enable.png",
+        "iconPath": "image/my1.png",
+        "selectedIconPath": "image/my2.png",
         "text": "我的"
       }
     ]

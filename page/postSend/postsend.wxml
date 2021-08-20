@@ -4,6 +4,15 @@
     <form>
       <view class="page-section">
 
+      <view class="section">
+        <view class="section__title">发生日期</view>
+        <picker mode="date" value="{{happenDate}}" bindchange="bindDateChange">
+          <view class="picker">
+            发生日期: {{happenDate}}
+          </view>
+        </picker>
+      </view>
+
         <view class="page-section">
           <view class="weui-cells__title">要说的话</view>
           <view class="weui-cells weui-cells_after-title">
