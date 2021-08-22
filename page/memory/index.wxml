@@ -1,4 +1,4 @@
-<!-- 
+ 
 <view class="index">
   <view class="memory-index-hd">
     <view class="flex-wrp-center-row">
@@ -11,10 +11,10 @@
 
 
 
-  <block wx:for-items="{{list}}" wx:key="{{item.id}}">
+  <block wx:for-items="{{list}}" wx:key="{{item.itemId}}">
     <view class="flex-wrp-item" style="flex-direction:row;">
       <view class="task_item_text">{{item.pre}}</view>
-      <view class="task_item_text">{{item.desc}}</view>
+      <view class="task_item_text">{{item.itemDescription}}</view>
       <view class="task_item_text">{{item.center}}</view>
       <view class="{{item.finish ? 'task_item_text_hide' : 'task_item_text'}}">{{item.gap}}</view>
       <view class="{{item.finish ? 'task_item_text_finish' : 'task_item_text'}}">{{item.end}}</view>
@@ -22,4 +22,3 @@
   </block>
 </view>
 
--->

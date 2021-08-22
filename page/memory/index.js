@@ -1,5 +1,7 @@
-const db = wx.cloud.database()
-const annivesary = db.collection('annivesary')
+// const db = wx.cloud.database()
+// const annivesary = db.collection('annivesary')
+
+import {mGet} from '../../util/request/HttpUtil'
 
 Page({
   onShow() {
@@ -15,41 +17,6 @@ Page({
     this.get();
     
 
-    // annivesary.get()
-    //   .then(res => {
-    //     console.log(res.data[0])
-
-    //     var startSecond = new Date(res.data[0].loveBegin).getTime() / 1000
-    //     var marrrySecond = new Date(res.data[0].marryBegin).getTime() / 1000
-
-    //     const totalDay = Math.floor((new Date().getTime() / 1000 - startSecond) / 3600 / 24)
-    //     const totalMarryDay = Math.floor((new Date().getTime() / 1000 - marrrySecond) / 3600 / 24)
-
-    //     const list = this.data.list
-    //     for (let i = 0, len = list.length; i < len; ++i) {
-    //       var gap = list[i].id - totalDay
-    //       list[i].gap = Math.abs(gap)
-    //       // if (gap >= 0) {
-    //         list[i].pre = "距离恋爱"
-    //         list[i].center = "还有"
-    //         list[i].end = "天"
-    //         list[i].finish = false
-    //       // } else {
-    //         list[i].pre = "恋爱"
-    //         list[i].center = ""
-    //         list[i].end = " ✓"
-    //         list[i].finish = true
-    //       // }
-    //     }
-
-    //     this.setData({
-    //       totalDay: totalDay,
-    //       totalMarryDay: totalMarryDay,
-    //       list: list,
-    //       videoShow: false,
-    //       clickTimes: 0
-    //     })
-    //   })
   },
   onShareAppMessage() {
     return {
@@ -76,37 +43,73 @@ Page({
       })
     }
   },
+
+
+  onLoad: function (options) {
+
+
+
+  },
+
   get() {
-    // console.log("=======================")
-    var startSecond = new Date('2021-05-03').getTime() / 1000
-    var marrrySecond = new Date('2020-01-01').getTime() / 1000
+    mGet("/storyDateDictionary/getStoryDate").then(res => {
+      console.log(res.res)
+      const storyDateData = res.res;
 
-    const totalDay = Math.floor((new Date().getTime() / 1000 - startSecond) / 3600 / 24)
-    const totalMarryDay = Math.floor((new Date().getTime() / 1000 - marrrySecond) / 3600 / 24)
-    const list = this.data.list
-    for (let i = 0, len = list.length; i < len; ++i) {
-      var gap = list[i].id - totalDay
-      list[i].gap = Math.abs(gap)
-      if (gap >= 0) {
-        list[i].pre = "距离恋爱"
-        list[i].center = "还有"
-        list[i].end = "天"
-        list[i].finish = false
-      } else {
-        list[i].pre = "恋爱"
-        list[i].center = ""
-        list[i].end = " ✓"
-        list[i].finish = true
+      const loveBeginDate = storyDateData.loveBeginDate;
+      const marryLoveDate = storyDateData.marryLoveDate;
+      let totalDay = null;
+      let totalMarryDay = null;
+      if(loveBeginDate) {
+        var startSecond = new Date(loveBeginDate).getTime() / 1000
+        totalDay = Math.floor((new Date().getTime() / 1000 - startSecond) / 3600 / 24)
       }
-    }
 
-    this.setData({
-      totalDay: totalDay,
-      totalMarryDay: totalMarryDay,
-      list: list,
-      videoShow: false,
-      clickTimes: 0
+      if(marryLoveDate) {
+        var marrrySecond = new Date(marryLoveDate).getTime() / 1000
+        totalMarryDay = Math.floor((new Date().getTime() / 1000 - marrrySecond) / 3600 / 24)
+      }
+      
+      mGet("/trackModel/listAll").then(result => {
+        console.log(result.res)
+        
+        if(result.res) {
+
+          const list = result.res;
+          for (let i = 0, len = list.length; i < len; ++i) {
+            var gap = list[i].itemId - totalDay
+            list[i].gap = Math.abs(gap)
+            if (gap >= 0) {
+              list[i].pre = "距离恋爱"
+              list[i].center = "还有"
+              list[i].end = "天"
+              list[i].finish = false
+            } else {
+              list[i].pre = "恋爱"
+              list[i].center = ""
+              list[i].end = " ✓"
+              list[i].finish = true
+            }
+          }
+      
+          this.setData({
+            totalDay: totalDay,
+            totalMarryDay: totalMarryDay,
+            list: list,
+            videoShow: false,
+            clickTimes: 0
+          })
+        }
+      })
+
+
+
     })
+
+
+   
+
+ 
   },
 
   videoErrorCallback(e) {
@@ -131,7 +134,7 @@ Page({
       { id: 1825, desc: "5年" },
       { id: 3285, desc: "9年" },
       { id: 36135, desc: "99年" },
-      { id: 3650000, desc: "10000年" },
+      // { id: 3650000, desc: "10000年" },
     ],
     danmuList:
       [

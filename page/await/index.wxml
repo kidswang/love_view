@@ -1,4 +1,5 @@
 <view class="index">
+<!--
   <view class="memory-index-hd">
     <view class="flex-wrp-center-row">
       <view class="memory-index-hd-desc">愿望还差</view>
@@ -10,6 +11,8 @@
       <view class="memory-index-hd-hi"></view>
     </view>
   </view>
+
+  -->
 
   <block wx:for-items="{{list}}" wx:key="{{item.id}}">
     <view class="flex-wrp-item" style="flex-direction:row;">

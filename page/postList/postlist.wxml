@@ -7,21 +7,14 @@
         <view>
           <image class="postCardAvatar" lazy-load="true" src="{{item.avatarUrl}}"></image>
         </view>
-
         <view class="postCardInfoListContainer">
           <text class="postName">{{item.nickName}}</text>
           <text>{{item.content}}</text>
-          <view  wx:if="{item.url != ''}">
-            <image class="postImage" lazy-load="true" mode="widthFix" src="{{item.url}}" id="{{item.id}}" data-name="{{item.url}}" bindtap="previewImage"></image>
-          </view>
-          <view wx:else></view>
-          
+            <image class=" postImage " lazy-load="true" mode="widthFix" src="{{item.url}}" id="{{item.id}}" data-name="{{item.url}}" bindtap="previewImage"></image>
           <text>{{item.happenDate}}</text>
         </view>
       </view>
     </view>
-
-
   </view>
 </view>
 

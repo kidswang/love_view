@@ -25,9 +25,9 @@
 }
 
 .postImage {
-  height: 550rpx;
-  width: 550rpx;
-  border-radius: 5rpx;
+  width: 100%;
+  height: auto;
+  border-radius: 20rpx;
 }
 
 .sendBox {
@@ -41,4 +41,11 @@
 .sendBtn {
   width: 120rpx;
   height: 120rpx;
+}
+
+
+.task_item_text_hide {
+  height: auto;
+  width: 0;
+  display: none;
 }

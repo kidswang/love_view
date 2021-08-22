@@ -3,7 +3,7 @@
 const { mPost } = require("../../util/request/HttpUtil")
 
 // const postCollection = db.collection('post')
-const MAX_LIMIT = 2
+const MAX_LIMIT = 6
 const FIRST_PAGE = 1
 
 Page({
@@ -82,6 +82,15 @@ Page({
       var originList = this.data.list;
       var newList = originList.concat(res.res.contentInfoBos);
 
+      for (let i = 0, len = newList.length; i < len; ++i) {
+          let ss = newList[i]
+          if(ss.url) {
+
+          } else {
+            
+          }
+      }
+
       this.setData({
         list: newList
       })
@@ -149,10 +158,11 @@ Page({
     console.log(e)
     console.log(e.target)
     console.log(e.target.dataset)
+    console.log(e.target.dataset.name)
 
     wx.previewImage({
       current,
-      urls: [e]
+      urls: [e.target.dataset.name]
     })
   },
 })
