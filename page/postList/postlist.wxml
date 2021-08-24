@@ -10,7 +10,7 @@
         <view class="postCardInfoListContainer">
           <text class="postName">{{item.nickName}}</text>
           <text>{{item.content}}</text>
-            <image class=" postImage " lazy-load="true" mode="widthFix" src="{{item.url}}" id="{{item.id}}" data-name="{{item.url}}" bindtap="previewImage"></image>
+            <image class=" postImage " lazy-load="true" mode="widthFix" src="{{getFullUrl(item.url)}}" id="{{item.id}}" data-name="{{item.url}}" bindtap="previewImage"></image>
           <text>{{item.happenDate}}</text>
         </view>
       </view>

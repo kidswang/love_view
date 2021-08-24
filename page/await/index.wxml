@@ -15,7 +15,7 @@
   -->
 
   <block wx:for-items="{{list}}" wx:key="{{item.id}}">
-    <view class="flex-wrp-item" style="flex-direction:row;">
+    <view class="flex-wrp-item" style="flex-direction:row;" bindtap="clickTap(item.id)" bindlongpress="deleteTap(item.id)">
       <view class="task_item_text">{{item.pre}}</view>
       <view class="task_item_text">{{item.desc}}</view>
       <view class="task_item_text">{{item.center}}</view>
