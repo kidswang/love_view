@@ -1,5 +1,30 @@
 <!--miniprogram/pages/my/my.wxml-->
 <view class="content">
+
+
+    <view class="content-head">
+        <view class="content-head-headshot">
+            <image wx:if="{{hasUserInfo}}" class="" src="{{userInfo.avatarUrl}}" />
+            <image wx:else class="" src="../../image/landing.png" />
+
+        </view>
+        <button wx:if="{{!hasUserInfo}}" class="btn" type="default" bindtap="getUserProfile" >登录/注册</button>
+        <view wx:else class="content-head-text">{{userInfo.nickName}}</view>
+
+    </view>
+
+ <!--
+  <view class="userinfo">
+    <block wx:if="{{!hasUserInfo}}">
+      <button wx:if="{{canIUseGetUserProfile}}" bindtap="getUserProfile"> 获取头像昵称 </button>
+    </block>
+    <block wx:else>
+      <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
+      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+    </block>
+  </view>
+
+
     <view class="content-head">
         <view class="content-head-headshot">
             <image wx:if="{{!isShow}}" class="" src="{{userInfo.avatarUrl}}" />
@@ -11,7 +36,9 @@
         <view wx:else class="content-head-text">{{userInfo.nickName}}</view>
 
     </view>
-        <!--
+
+
+       
       <view wx:for="{{list}}" wx:key="index" class="shishi" bindtap="clickEject" data-index="{{index}}">
          <van-cell value="{{item.edition}}" is-link>
              <view slot="title" class="list">

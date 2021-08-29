@@ -15,12 +15,17 @@
   -->
 
   <block wx:for-items="{{list}}" wx:key="{{item.id}}">
-    <view class="flex-wrp-item" style="flex-direction:row;" bindtap="clickTap(item.id)" bindlongpress="deleteTap(item.id)">
-      <view class="task_item_text">{{item.pre}}</view>
-      <view class="task_item_text">{{item.desc}}</view>
-      <view class="task_item_text">{{item.center}}</view>
-      <view class="{{item.finish ? 'task_item_text_hide' : 'task_item_text'}}">{{item.gap}}</view>
-      <view class="{{item.finish ? 'task_item_text_finish' : 'task_item_text'}}">{{item.end}}</view>
+    <view class="flex-wrp-item" style="flex-direction:row;" bindtap="clickTap" bindlongpress="deleteTap" data-index = "{{item.id}}">
+      <view class="task_item_text1">{{item.message}}</view>
+      <view class="task_item_text2">{{item.happenDate}}</view>
     </view>
   </block>
+</view>
+
+
+<view class="sendBox">
+  <view style="flex-grow:1" />
+  <navigator url='../postWait/postwait'>
+    <image class="sendBtn" src="../../image/addition_fill.png" />
+  </navigator>
 </view>

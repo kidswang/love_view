@@ -9,7 +9,8 @@ import axios from "./axios";
  * axios defaults 配置
  */
 axios.defaults = {
-  baseUrl: "http://192.168.1.109:9001",
+  // baseUrl: "http://192.168.1.109:9001",
+  baseUrl: "https://www.mmxiaokeai.top/api",
   timeout: 60000,
 };
 

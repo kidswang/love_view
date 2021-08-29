@@ -1,6 +1,7 @@
 // const db = wx.cloud.database()
 
 const { mPost } = require("../../util/request/HttpUtil")
+const {getBaseUrl} = require("../../util/request/FileUtil")
 
 // const postCollection = db.collection('post')
 const MAX_LIMIT = 6
@@ -80,16 +81,18 @@ Page({
       console.log(res.res)
 
       var originList = this.data.list;
-      var newList = originList.concat(res.res.contentInfoBos);
-
-      for (let i = 0, len = newList.length; i < len; ++i) {
-          let ss = newList[i]
+      let dataList = res.res.contentInfoBos
+      const baseUrl = getBaseUrl();
+      for (let i = 0, len = dataList.length; i < len; ++i) {
+          let ss = dataList[i]
           if(ss.url) {
-
+            ss.url = baseUrl + ss.url;
           } else {
             
           }
       }
+
+      var newList = originList.concat(dataList);
 
       this.setData({
         list: newList
@@ -129,6 +132,12 @@ Page({
     //     wx.hideLoading()
     //     wx.stopPullDownRefresh();
     //   })
+  },
+
+  getFullUrl: function(e) {
+    const url = e.target.dataset.url
+    const baseUri = getBaseUrl();
+    return baseUri +  url;
   },
 
   formatDateStr: function (createTime) {

@@ -1,0 +1,32 @@
+<view class="container">
+
+  <view class="page-body">
+    <form>
+      <view class="page-section">
+
+      <view class="page-section">
+        <view class="weui-cells__title">发生日期</view>
+        <picker mode="date" value="{{happenDate}}" bindchange="bindDateChange">
+          <view class="picker">
+            发生日期: {{happenDate}}
+          </view>
+        </picker>
+      </view>
+
+        <view class="page-section">
+          <view class="weui-cells__title">纪念日</view>
+          <view class="weui-cells weui-cells_after-title">
+            <view class="weui-cell weui-cell_input">
+              <input class="weui-input" maxlength="99" auto-focus placeholder="" bindinput="bindKeyInput" value="{{inputValue}}" />
+            </view>
+          </view>
+        </view>
+
+        <view class="page-section">
+          <button type="primary" class="sendBtn" open-type="getUserInfo" bindgetuserinfo="onGotUserInfo" loading="{{loading}}">发布</button>
+        </view>
+
+      </view>
+    </form>
+  </view>
+</view>

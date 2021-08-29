@@ -181,42 +181,5 @@ Page({
     })
 
 
-
-
-
-    // wx.cloud.uploadFile({
-    //   cloudPath: filename,
-    //   filePath: imageFile, // 文件路径
-    //   success: res => {
-    //     console.log("upload img:" + res.fileID)
-
-    //     wx.showLoading({
-    //       title: 'saving...',
-    //     })
-
-    //     postCollection.add({
-    //       data: {
-    //         // openId: openId,
-    //         userInfo: userInfo,
-    //         message: inputValue,
-    //         imageFileIDList: [res.fileID],
-    //         createTime: db.serverDate()
-    //       }, 
-    //       success : res=> {
-    //         console.log("save " + res)
-    //         wx.hideLoading()
-    //         wx.navigateBack()
-    //       },
-    //       fail: err => {
-    //         console.log(err)
-    //         wx.hideLoading()
-    //       }
-    //     })
-    //   },
-    //   fail: err => {
-    //     console.log(err)
-    //     wx.hideLoading()
-    //   }
-    // })
   }
 })

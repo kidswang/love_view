@@ -50,10 +50,11 @@
   "debug": false,
   "pages": [
     "page/memory/index",
-    "page/postList/postlist",
-    "page/postSend/postsend",
     "page/home/home",
+    "page/postList/postlist",
     "page/await/index",
+    "page/postSend/postsend",
+    "page/postWait/postwait",
     "page/component/index",
     "page/component/pages/view/view",
     "page/component/pages/scroll-view/scroll-view",

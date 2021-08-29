@@ -1,32 +1,26 @@
+
+import {mGet, mPost} from "../../util/request/HttpUtil"
+
 Page({
   onShow() {
-    wx.reportAnalytics('enter_home_programmatically', {})
-    const endSecond = 1598665600
+    // wx.reportAnalytics('enter_home_programmatically', {})
+    // const endSecond = 1598665600
 
-    const totalDay = Math.floor((endSecond - new Date().getTime() / 1000) / 3600 / 24)
+    // const totalDay = Math.floor((endSecond - new Date().getTime() / 1000) / 3600 / 24)
     // const totalMarryDay = Math.floor((new Date().getTime() / 1000 - marrrySecond) / 3600 / 24)
-
-    const list = this.data.list
-    for (let i = 0, len = list.length; i < len; ++i) {
-      var gap = list[i].id - totalDay
-      list[i].gap = Math.abs(gap)
-      if (gap >= 0) {
-        list[i].pre = "距离"
-        list[i].center = "还有"
-        list[i].end = "天"
-        list[i].finish = false
-      } else {
-        list[i].pre = "XX"
-        list[i].center = ""
-        list[i].end = " ✓"
-        list[i].finish = true
+    mGet("/keepsake/listAll").then((result) => {
+      console.log(result)
+      if(result.res) {
+        const list = result.res
+        console.log(list)
+        this.setData({
+          list: list
+        })
       }
-    }
-
-    this.setData({
-      totalDay: totalDay,
-      list: list
-    })
+      
+    }).catch((err) => {
+      
+    });
   },
   onShareAppMessage() {
     return {
@@ -35,35 +29,79 @@ Page({
     }
   },
 
+  onPullDownRefresh: function() {
+    this.setData({
+      list: [],
+    
+    })
+    this.loadData()
+  },
+
+  onload() {
+    this.loadData()
+
+  },
+
+  loadData() {
+    mGet("/keepsake/listAll").then((result) => {
+      console.log(result)
+      if(result.res) {
+        const list = result.res
+        console.log(list)
+        this.setData({
+          list: list
+        })
+      }
+      wx.stopPullDownRefresh();
+    }).catch((err) => {
+      
+    });
+
+  },
 
   data: {
-    totalDay: 0,
-    totalMarryDay: 0,
-    list: [
-      { id: 1, desc: "99天" }
-    ]
+    list: []
   },
 
-  clickTap(id) {
-    console.log(id);
-
+  clickTap(e) {
+    let id = e.currentTarget.dataset.index;
+    let that = this
+    wx.navigateTo({
+      url: '../postWait/postwait?id=' + id,
+      success: function(res) {
+        that.setData({
+          list: [],
+        
+        })
+        that.loadData()
+      },
+      fail: function(res) {},
+      complete: function(res) {},
+    })
+    // console.log(id);
   },
 
-  deleteTap(id) {
+  deleteTap(e) {
+    let id = e.currentTarget.dataset.index;
+    let that = this;
     wx.showModal({
       title: '提示',
-      content: '确定要删除此图片吗？',
+      content: '确定要删除此记录吗？',
       success: function (res) {
         if (res.confirm) {
           console.log('点击确定了');
-          images.splice(index, 1);
+          mGet("/keepsake/deleteInfo", {"id":id}).then(result => {
+            if(result.res) {
+              that.setData({
+                list: [],
+              })
+              that.loadData()
+            }
+          })
         } else if (res.cancel) {
           console.log('点击取消了');
           return false;
         }
-        that.setData({
-          images
-        });
       }
     })
   },

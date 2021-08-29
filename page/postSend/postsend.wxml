@@ -4,8 +4,8 @@
     <form>
       <view class="page-section">
 
-      <view class="section">
-        <view class="section__title">发生日期</view>
+      <view class="page-section">
+        <view class="weui-cells__title">发生日期</view>
         <picker mode="date" value="{{happenDate}}" bindchange="bindDateChange">
           <view class="picker">
             发生日期: {{happenDate}}
@@ -17,7 +17,7 @@
           <view class="weui-cells__title">要说的话</view>
           <view class="weui-cells weui-cells_after-title">
             <view class="weui-cell weui-cell_input">
-              <input class="weui-input" maxlength="99" auto-focus placeholder="最大输入长度为99" bindinput="bindKeyInput" />
+              <input class="weui-input" maxlength="99" auto-focus placeholder="" bindinput="bindKeyInput" />
             </view>
           </view>
         </view>
@@ -27,10 +27,11 @@
             <view class="weui-cell__bd">
               <view class="weui-uploader">
                 <view class="weui-uploader__hd">
+                <!--
                   <view class="weui-uploader__title">点击可选择或预览选好的图片</view>
-                  <!-- <view class="weui-uploader__info">{{imageList.length}}/{{count[countIndex]}}</view> -->
+                   <view class="weui-uploader__info">{{imageList.length}}/{{count[countIndex]}}</view>-->
                 </view>
-
+ 
                 <view class="weui-uploader__bd">
                   <view class="weui-uploader__files">
                     <block wx:for="{{imageList}}" wx:for-item="image" wx:key="{{image}}">

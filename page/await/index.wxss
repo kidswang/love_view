@@ -2,8 +2,9 @@
 
 .flex-wrp-center-row{
   display:flex;
+  flex-wrap: nowrap;
   align-items: flex-end;
-  justify-content: center;
+  justify-content: space-between;
   flex-direction:row;
   padding: 0rpx 0 0 0;
 }
@@ -28,6 +29,18 @@
   width: auto;
 }
 
+.task_item_text1 {
+  height: auto;
+  width: 68%;
+  color: black;
+}
+
+.task_item_text2 {
+  height: auto;
+  width: 30%;
+  color: #C95659;
+}
+
 .task_item_text_hide {
   height: auto;
   width: 0;
@@ -45,10 +58,29 @@
 }
 
 .flex-wrp-item{
+
   display:flex;
-  padding: 20rpx 0 20rpx 60rpx;
-  margin: 20rpx 60rpx 0 60rpx;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction:row;
+
+  /* display:flex; */
+  padding: 20rpx 0 20rpx 20rpx; 
+  margin: 20rpx 20rpx 0 20rpx;
   background-color: #FFFFFF;
-  border-radius: 4rpx;
+  border-radius: 4rpx; 
 }
 
+.sendBox {
+  position:fixed;
+  bottom:0;
+  display:flex;
+  width:100%;
+  justify-content:center;
+}
+
+.sendBtn {
+  width: 120rpx;
+  height: 120rpx;
+}
